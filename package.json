@@ -1,0 +1,35 @@
+{
+  "name": "usagi-lang",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "우사기의 소리로 작성하는 작은 프로그래밍 언어와 플레이그라운드",
+  "bin": {
+    "usa": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -p tsconfig.build.json && tsc -p tsconfig.web.json && vite build",
+    "test": "vitest run",
+    "usa": "node dist/cli/index.js",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.64.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=26.13.0 <27"
+  },
+  "packageManager": "npm@12.2.1"
+}

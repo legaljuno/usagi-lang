@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ArrowDown, ArrowRight, BookOpen, Check, ChevronDown, CircleHelp, Clipboard, Code2, CornerDownLeft, Play, RotateCcw, Sparkles, Terminal, Variable } from 'lucide-react';
 import { run, UsagiError, type RuntimeState } from '../src/index.js';
@@ -6,6 +6,8 @@ import countdown from '../examples/countdown.usa?raw';
 import rap from '../examples/rap.usa?raw';
 import hello from '../examples/hello.usa?raw';
 import specUrl from '../docs/SPEC.md?url';
+import usagiImage from './assets/usagi.jpg';
+import usagiVideo from './assets/usagi-sway.mp4';
 import './style.css';
 
 const examples = [
@@ -15,18 +17,23 @@ const examples = [
 ];
 type Result = { state?: RuntimeState; error?: string; source: string };
 
-function Bunny({ small = false }: { small?: boolean }) {
-  return <svg className={small ? 'bunny bunny-small' : 'bunny'} viewBox="0 0 240 210" fill="none" aria-hidden="true">
-    <path d="M77 111C61 92 56 61 61 35C63 25 72 24 78 34C91 53 98 73 102 93" fill="#fffdf8" stroke="#28493e" strokeWidth="4" strokeLinecap="round"/>
-    <path d="M137 94C143 67 154 35 168 23C175 17 183 21 183 31C184 58 172 90 161 105" fill="#fffdf8" stroke="#28493e" strokeWidth="4" strokeLinecap="round"/>
-    <path d="M71 43C71 59 76 78 84 89M172 33C171 51 165 71 157 85" stroke="#efb1a5" strokeWidth="7" strokeLinecap="round"/>
-    <path d="M45 150C45 115 72 87 119 87C166 87 195 115 195 150C195 179 167 194 120 194C73 194 45 179 45 150Z" fill="#fffdf8" stroke="#28493e" strokeWidth="4"/>
-    <ellipse cx="93" cy="142" rx="4" ry="6" fill="#28493e"/><ellipse cx="146" cy="142" rx="4" ry="6" fill="#28493e"/>
-    <ellipse cx="78" cy="154" rx="10" ry="5" fill="#f8d5cc"/><ellipse cx="161" cy="154" rx="10" ry="5" fill="#f8d5cc"/>
-    <path d="M115 150L120 154L125 150M120 154C120 160 115 163 111 159M120 154C120 160 125 163 129 159" stroke="#28493e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M43 174C31 168 23 171 25 179C27 186 39 187 48 184M197 174C209 168 217 171 215 179C213 186 201 187 192 184" fill="#fffdf8" stroke="#28493e" strokeWidth="4" strokeLinecap="round"/>
-    <path d="M27 111L30 117M21 117L28 119M205 91L208 98M202 95L211 94" stroke="#e6a67d" strokeWidth="3" strokeLinecap="round"/>
-  </svg>;
+function UsagiVideo() {
+  const video = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePlayback = () => {
+      if (preference.matches) video.current?.pause();
+      else void video.current?.play().catch(() => {});
+    };
+    updatePlayback();
+    preference.addEventListener('change', updatePlayback);
+    return () => preference.removeEventListener('change', updatePlayback);
+  }, []);
+
+  return <video ref={video} className="usagi-video" muted loop playsInline preload="metadata" poster={usagiImage}>
+    <source src={usagiVideo} type="video/mp4" />
+  </video>;
 }
 
 function execute(source: string): Result {
@@ -58,7 +65,7 @@ function App() {
   return <>
     <header className="site-header">
       <div className="header-inner">
-        <a className="brand" href="#top" aria-label="우사기랩 처음으로"><span className="brand-mark"><Bunny small /></span><span>usagi<span className="brand-dot">.</span>lab</span></a>
+        <a className="brand" href="#top" aria-label="우사기랩 처음으로"><span className="brand-mark"><img src={usagiImage} alt="" /></span><span>usagi<span className="brand-dot">.</span>lab</span></a>
         <nav aria-label="주 메뉴"><a className="active" href="#playground">플레이그라운드</a><a href="#guide">언어 가이드</a></nav>
         <span className="version"><span /> USAGI LANG v0.2</span>
       </div>
@@ -75,7 +82,7 @@ function App() {
           <div className="art-orbit orbit-one"/><div className="art-orbit orbit-two"/>
           <span className="speech speech-one">야하!</span><span className="speech speech-two">이히히 ♪</span>
           <span className="art-star art-star-one">✳</span><span className="art-star art-star-two">✦</span>
-          <div className="bunny-circle"><Bunny /></div>
+          <div className="bunny-circle"><UsagiVideo /></div>
           <span className="art-caption">LET'S MAKE SOME NOISE!</span>
         </div>
       </section>

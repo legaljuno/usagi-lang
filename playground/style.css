@@ -8,3 +8,27 @@
 .bunny-circle{overflow:hidden;background:#fff}
 .usagi-video{width:100%;height:100%;display:block;object-fit:cover}
 @media(max-width:520px){.hero-art{right:-10px;transform:scale(.68)}}
+
+/* A playable example powered by the same interpreter as the editor. */
+.game-section{padding:22px 0 30px;scroll-margin-top:30px}
+.game-code-link,.game-code-mobile{display:inline-flex;align-items:center;gap:7px;padding:6px 0;border:0;background:none;color:#759784;font-size:11px;font-weight:800}
+.game-code-link:hover,.game-code-mobile:hover{color:#396a4d}
+.game-code-mobile{display:none}
+.game-card{display:grid;grid-template-columns:1.05fr 1fr;gap:32px;align-items:center;padding:30px 36px;border:1px solid #dfeade;border-radius:18px;background:linear-gradient(120deg,#eff7ed 0%,#fbfcf7 72%);box-shadow:0 7px 24px #516a5709}
+.game-eyebrow{font-size:10px;font-weight:800;letter-spacing:1.1px;color:#86af91}
+.game-choices h3{margin:8px 0;font-size:20px;letter-spacing:-.7px;color:#304d3c}
+.game-choices p{font-size:12px;line-height:1.7;color:#91a598;margin:0 0 20px}
+.hand-buttons{display:flex;gap:10px}
+.hand-button{width:85px;min-height:86px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:1px solid #e1ebdf;border-radius:13px;background:#fff;color:#63836a;box-shadow:0 3px 10px #526c5708;transition:transform .15s,border-color .15s,background .15s}
+.hand-button:hover{transform:translateY(-3px);border-color:#a4cbb0}
+.hand-button.selected{border-color:#80b695;background:#f3fbf3;box-shadow:0 0 0 2px #d7ecda}
+.hand-button span{font-size:29px;line-height:1.2}.hand-button strong{font-size:12px}
+.game-result{padding:18px 22px;border:1px solid #e7eee2;border-radius:14px;background:#fff}
+.duel{display:flex;align-items:center;justify-content:center;gap:35px}
+.duel>div{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:72px;color:#6a8b74}
+.duel small{font-size:10px;font-weight:800;color:#a3b3a5}.duel span{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:#f1f7ee;font-size:27px;color:#b4c9b6}.duel strong{font-size:11px}.duel b{font-size:11px;letter-spacing:1px;color:#c4d2c4}
+.game-message{margin-top:14px;padding:10px;text-align:center;background:#f4f9f1;border-radius:8px;color:#739a79;font-size:11px;font-weight:800}.game-message.error{background:#fff0eb;color:#bd705f;overflow-wrap:anywhere}
+.program-input{margin-top:16px}.program-input label{display:block;color:#718d78;font-size:11px;font-weight:800;margin-bottom:7px}.program-input small{font-size:10px;font-weight:500;color:#a3b1a4;margin-left:6px}.program-input input{width:100%;height:38px;padding:0 12px;border:1px solid #e6ede2;border-radius:8px;background:#fafcf8;color:#3a6650;font:12px ui-monospace,monospace}.program-input input::placeholder{color:#becbbf}.program-input input:focus-visible{outline:3px solid #7cbba2;outline-offset:2px}
+@media(max-width:700px){.game-card{gap:18px;padding:24px}.duel{gap:18px}.hand-button{width:72px}}
+@media(max-width:520px){.game-section{padding:18px 0 22px}.game-card{grid-template-columns:1fr;padding:20px;gap:18px}.game-choices h3{font-size:17px}.game-choices p{margin-bottom:14px}.hand-buttons{gap:8px}.hand-button{width:auto;flex:1;min-height:72px}.hand-button span{font-size:25px}.duel{gap:30px}.game-result{padding:15px}.game-code-link{display:none}.game-code-mobile{display:inline-flex;margin-top:13px}.program-input small{display:block;margin:4px 0 0}.hand-button:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.hand-button{transition:none}}

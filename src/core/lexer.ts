@@ -4,7 +4,7 @@ import { UsagiError } from './errors.js';
 const commands: [RegExp, TokenType][] = [
   [/^야하!/, 'START'], [/^우라라!/, 'END'], [/^이?야아+하아+!/, 'RAP_PRINT'],
   [/^우라!/, 'PRINT'], [/^푸루루!/, 'CHAR_PRINT'], [/^하아\?/, 'IF_ZERO'],
-  [/^야하\?/, 'GOTO'], [/^우+/, 'ASSIGN'],
+  [/^야하\?/, 'GOTO'], [/^우+야하\?/, 'RANDOM'], [/^우+\?/, 'INPUT'], [/^우+/, 'ASSIGN'],
 ];
 
 /** Tokenize normalized source. Locations are 1-based positions in NFC-normalized text. */

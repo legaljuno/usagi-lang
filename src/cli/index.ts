@@ -1,6 +1,18 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises';
-import { run, UsagiError } from '../index.js';
+import { readSync } from 'node:fs';
+import { run } from '../index.js';
+
+function readLine(): string | undefined {
+  const byte = Buffer.alloc(1);
+  const bytes: number[] = [];
+  while (true) {
+    const count = readSync(0, byte, 0, 1, null);
+    if (count === 0) return bytes.length ? Buffer.from(bytes).toString('utf8') : undefined;
+    if (byte[0] === 10) return Buffer.from(bytes).toString('utf8').replace(/\r$/, '');
+    bytes.push(byte[0]);
+  }
+}
 
 async function main(): Promise<void> {
   const [command, file, ...extra] = process.argv.slice(2);
@@ -15,10 +27,12 @@ async function main(): Promise<void> {
   }
   try {
     const source = await readFile(file, 'utf8');
-    const result = run(source);
-    process.stdout.write(result.output);
+    run(source, {
+      readInput: readLine,
+      random: upperBound => Math.min(upperBound - 1, Math.floor(Math.random() * upperBound)),
+      writeOutput: text => { process.stdout.write(text); },
+    });
   } catch (error) {
-    if (error instanceof UsagiError && error.state?.output) process.stdout.write(error.state.output);
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
   }

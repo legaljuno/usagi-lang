@@ -28,10 +28,13 @@ export function parse(source: string): Program {
       instructions.push({ opcode: 'END', operand: { terms: [] }, location: command.location });
       continue;
     }
-    if (!['ASSIGN', 'PRINT', 'RAP_PRINT', 'CHAR_PRINT', 'IF_ZERO', 'GOTO'].includes(command.type)) {
+    if (!['ASSIGN', 'INPUT', 'RANDOM', 'PRINT', 'RAP_PRINT', 'CHAR_PRINT', 'IF_ZERO', 'GOTO'].includes(command.type)) {
       throw new UsagiError('syntax', '명령이 필요합니다.', command.location);
     }
-    if (!terms.length && !['ASSIGN', 'CHAR_PRINT'].includes(command.type)) {
+    if (command.type === 'INPUT' && terms.length) {
+      throw new UsagiError('syntax', '입력 명령에는 수식을 쓸 수 없습니다.', terms[0].location);
+    }
+    if (!terms.length && !['ASSIGN', 'INPUT', 'CHAR_PRINT'].includes(command.type)) {
       throw new UsagiError('syntax', '이 명령에는 수식이 필요합니다.', command.location);
     }
     const operand: Expression = { terms: [] };
@@ -50,7 +53,7 @@ export function parse(source: string): Program {
       }
     });
     instructions.push({ opcode: command.type as Instruction['opcode'], operand, location: command.location,
-      ...(command.type === 'ASSIGN' ? { variable: command.value.length } : {}) });
+      ...(['ASSIGN', 'INPUT', 'RANDOM'].includes(command.type) ? { variable: command.value.match(/^우+/)![0].length } : {}) });
   }
   if (!ended) {
     const last = lines.at(-1)?.[0].location ?? first[0].location;

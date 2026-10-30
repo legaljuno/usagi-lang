@@ -7,7 +7,7 @@ import rap from '../examples/rap.usa?raw';
 import hello from '../examples/hello.usa?raw';
 import specUrl from '../docs/SPEC.md?url';
 import usagiImage from './assets/usagi.jpg';
-import usagiVideo from './assets/usagi-sway.mp4';
+import usagiVideo from '../usagi-head-tilt-loop.mp4';
 import './style.css';
 
 const examples = [

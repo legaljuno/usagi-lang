@@ -34,11 +34,21 @@ export function parse(source: string): Program {
     if (!terms.length && !['ASSIGN', 'CHAR_PRINT'].includes(command.type)) {
       throw new UsagiError('syntax', '이 명령에는 수식이 필요합니다.', command.location);
     }
-    const operand: Expression = { terms: terms.map(token => ({
-      kind: token.type === 'VARIABLE' ? 'variable' : 'number',
-      value: token.type === 'VARIABLE' ? token.value.length : token.value === '야하' || token.value === '야' ? 1 : token.value === '하' ? -1 : token.value.match(/^이+/)![0].length,
-      location: token.location,
-    })) };
+    const operand: Expression = { terms: [] };
+    terms.forEach((token, index) => {
+      if (token.type === 'MULTIPLY') {
+        if (index === 0 || index === terms.length - 1 || terms[index - 1].type === 'MULTIPLY') {
+          throw new UsagiError('syntax', '뿌릿의 양쪽에 수식이 필요합니다.', token.location);
+        }
+        (operand.multiplications ??= []).push({ beforeTerm: operand.terms.length, location: token.location });
+      } else {
+        operand.terms.push({
+          kind: token.type === 'VARIABLE' ? 'variable' : 'number',
+          value: token.type === 'VARIABLE' ? token.value.length : token.value === '야하' || token.value === '야' ? 1 : token.value === '하' ? -1 : token.value.match(/^이+/)![0].length,
+          location: token.location,
+        });
+      }
+    });
     instructions.push({ opcode: command.type as Instruction['opcode'], operand, location: command.location,
       ...(command.type === 'ASSIGN' ? { variable: command.value.length } : {}) });
   }

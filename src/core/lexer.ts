@@ -27,9 +27,9 @@ export function lex(source: string): Token[] {
     while (offset < line.length) {
       skipSpace();
       if (offset >= line.length) break;
-      const term = line.slice(offset).match(/^(야하|이+히+|라+|야|하)/u)?.[0];
+      const term = line.slice(offset).match(/^(뿌릿|야하|이+히+|라+|야|하)/u)?.[0];
       if (!term) throw new UsagiError('syntax', `알 수 없는 토큰 '${line[offset]}'입니다.`, location());
-      tokens.push({ type: term.startsWith('라') ? 'VARIABLE' : 'NUMBER', value: term, location: location() });
+      tokens.push({ type: term === '뿌릿' ? 'MULTIPLY' : term.startsWith('라') ? 'VARIABLE' : 'NUMBER', value: term, location: location() });
       offset += term.length;
     }
     tokens.push({ type: 'EOL', value: '', location: { line: index + 1, column: line.length + 1 } });
